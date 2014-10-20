@@ -1,0 +1,11 @@
+<h1>Codes#index</h1>
+<p>Find me in app/views/codes/index.html.erb</p>
+<p>This is the index page, all codes here:</p>
+
+<% @codes.each do |code| %>
+	<%= code.barcode %>
+	<br>
+<% end %>
+
+
+<%= link_to "Enter new code here", new_code_path %>
