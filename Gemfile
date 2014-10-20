@@ -43,3 +43,7 @@ gem 'quiet_assets', group: :development
 gem 'scriptcam-rails'
 
 gem 'pg', '~> 0.17.1'
+
+gem 'rails_12factor', group: :production
+
+
