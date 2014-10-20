@@ -13,10 +13,61 @@
 
 ActiveRecord::Schema.define(version: 20141020031405) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "authentications", force: true do |t|
+    t.integer  "user_id",    null: false
+    t.string   "provider",   null: false
+    t.string   "uid",        null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "codes", force: true do |t|
     t.string   "barcode"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "stocks", force: true do |t|
+    t.string   "yahoo_symbol"
+    t.string   "twitter_symbol"
+    t.string   "company_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "stocks_users", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "stock_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tweets", force: true do |t|
+    t.string   "username"
+    t.string   "profile_img_url"
+    t.string   "text"
+    t.datetime "tweet_created_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.integer  "retweet_count"
+    t.string   "ticker"
+    t.string   "tweet_id"
+    t.string   "status_id"
+  end
+
+  create_table "users", force: true do |t|
+    t.string   "email",            null: false
+    t.string   "crypted_password"
+    t.string   "salt"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "user_image"
+  end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
 end
