@@ -11,6 +11,8 @@
 // about supported directives.
 //
 //= require jquery
+//= require swfobject
+//= require scriptcam
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .

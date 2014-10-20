@@ -1,3 +1,30 @@
+<script language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script language="JavaScript" src="//ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+<script language="JavaScript" src="/assets/scriptcam.js"></script>
+<script> 
+	$(document).ready(function() {
+		$("#webcam").scriptcam({
+			path: '/assets/',
+			onError:onError,
+			cornerRadius:0,
+			onWebcamReady:onWebcamReady
+		});
+	});
+
+	function onError(errorId,errorMsg) {
+		alert(errorMsg);
+	}			
+	function changeCamera() {
+		$.scriptcam.changeCamera($('#cameraNames').val());
+	}
+	function onWebcamReady(cameraNames,camera,microphoneNames,microphone,volume) {
+		$.each(cameraNames, function(index, text) {
+			$('#cameraNames').append( $('<option></option>').val(index).html(text) )
+		}); 
+		$('#cameraNames').val(camera);
+	}
+</script> 
+
 <h1>Codes#new</h1>
 <p>Find me in app/views/codes/new.html.erb</p>
 
@@ -13,10 +40,8 @@
 			</div>
 		</div>
 		<div style="width:135px;float:left;">
-			<p><button class="btn btn-small" id="btn1" onclick="base64_tofield()">Snapshot to form</button></p>
-			<p><button class="btn btn-small" id="btn2" onclick="base64_toimage()">Snapshot to image</button></p>
+			<p><button class="btn btn-small" id="btn1" onclick="$('#decoded').text($.scriptcam.getBarCode());">Decode image</button></p>
 		</div>
 		<div style="width:200px;float:left;">
-			<p><textarea id="formfield" style="width:190px;height:70px;"></textarea></p>
-			<p><img id="image" style="width:200px;height:153px;"/></p>
+			<p id="decoded"></p>
 		</div>
