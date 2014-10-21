@@ -5,18 +5,36 @@
 	$(document).ready(function() {
 		$("#webcam").scriptcam({
 			path: '/assets/',
+			width: 320,
+			height: 240,
 			onError:onError,
 			cornerRadius:0,
 			onWebcamReady:onWebcamReady
 		});
+
+		var refreshScanner = setInterval(function(){
+			var decodeValue = $.scriptcam.getBarCode();
+			console.log(decodeValue);
+			 if(!!decodeValue) {
+				clearInterval(refreshScanner);
+				$('#code_barcode').attr('value', decodeValue);
+				playasound();
+			}
+		}, 1000);
 	});
 
+	function playasound() {
+		$.scriptcam.playMP3("/assets/ding.mp3");
+	}					
+	
 	function onError(errorId,errorMsg) {
 		alert(errorMsg);
-	}			
+	}
+
 	function changeCamera() {
 		$.scriptcam.changeCamera($('#cameraNames').val());
 	}
+
 	function onWebcamReady(cameraNames,camera,microphoneNames,microphone,volume) {
 		$.each(cameraNames, function(index, text) {
 			$('#cameraNames').append( $('<option></option>').val(index).html(text) )
@@ -31,17 +49,19 @@
 <%= render 'new_form' %>
 
 <div style="width:330px;float:left;">
-			<div id="webcam">
-			</div>
-			<div style="margin:5px;">
-				<%= image_tag "webcamlogo.png", :style => "vertical-align:text-top" %>
-				<select id="cameraNames" size="1" onChange="changeCamera()" style="width:245px;font-size:10px;height:25px;">
-				</select>
-			</div>
-		</div>
-		<div style="width:135px;float:left;">
-			<p><button class="btn btn-small" id="btn1" onclick="$('#decoded').text($.scriptcam.getBarCode());">Decode image</button></p>
-		</div>
-		<div style="width:200px;float:left;">
-			<p id="decoded"></p>
-		</div>
+	<div id="webcam"></div>
+	<div style="margin:5px;">
+		<%= image_tag "webcamlogo.png", :style => "vertical-align:text-top" %>
+		<select id="cameraNames" size="1" onChange="changeCamera()" style="width:245px;font-size:10px;height:25px;"></select>
+	</div>
+</div>
+
+<!-- <div style="width:135px;float:left;">
+	<p><button class="btn btn-small" id="btn1" onclick="$('#code_barcode').attr('value',$.scriptcam.getBarCode());">
+	Decode image
+	</button></p>
+</div> -->
+		
+<div style="width:200px;float:left;">
+	<p id="decoded"></p>
+</div>
