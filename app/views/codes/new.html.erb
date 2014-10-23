@@ -1,47 +1,4 @@
-<script language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script language="JavaScript" src="//ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
-<script language="JavaScript" src="/assets/scriptcam.js"></script>
-<script> 
-	$(document).ready(function() {
-		$("#webcam").scriptcam({
-			path: '/assets/',
-			width: 320,
-			height: 240,
-			onError:onError,
-			cornerRadius:0,
-			onWebcamReady:onWebcamReady
-		});
-
-		var refreshScanner = setInterval(function(){
-			var decodeValue = $.scriptcam.getBarCode();
-			console.log(decodeValue);
-			 if(!!decodeValue) {
-				clearInterval(refreshScanner);
-				$('#code_barcode').attr('value', decodeValue);
-				playasound();
-			}
-		}, 1000);
-	});
-
-	function playasound() {
-		$.scriptcam.playMP3("/assets/ding.mp3");
-	}					
-	
-	function onError(errorId,errorMsg) {
-		alert(errorMsg);
-	}
-
-	function changeCamera() {
-		$.scriptcam.changeCamera($('#cameraNames').val());
-	}
-
-	function onWebcamReady(cameraNames,camera,microphoneNames,microphone,volume) {
-		$.each(cameraNames, function(index, text) {
-			$('#cameraNames').append( $('<option></option>').val(index).html(text) )
-		}); 
-		$('#cameraNames').val(camera);
-	}
-</script> 
+ 
 
 <h1>Scan new codes</h1>
 <p>Create new barcode in database</p>
@@ -50,10 +7,7 @@
 
 <div style="width:330px;float:left;">
 	<div id="webcam"></div>
-	<div style="margin:5px;">
-		<%= image_tag "webcamlogo.png", :style => "vertical-align:text-top" %>
-		<select id="cameraNames" size="1" onChange="changeCamera()" style="width:245px;font-size:10px;height:25px;"></select>
-	</div>
+	
 </div>
 
 <!-- <div style="width:135px;float:left;">
